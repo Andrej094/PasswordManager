@@ -59,12 +59,21 @@ Python 3.10 or newer
 
 Install dependencies: **pip install cryptography**
 
-
 ---
 
 ## Running the program
 
 Run: **python main.py**
+
+---
+
+## Building executable
+
+Install PyInstaller: **pip install pyinstaller**
+
+Build: **pyinstaller --onefile --windowed --name PasswordManager main.py**
+
+Executable will appear in: **dist/**
 
 ---
 
@@ -129,11 +138,3 @@ This project is still experimental:
 - No mobile support
 - No browser autofill
 
----
-## Building executable
-
-Install PyInstaller: **pip install pyinstaller**
-
-Build: **pyinstaller --onefile --windowed --name PasswordManager main.py**
-
-Executable will appear in: **dist/**
