@@ -1,6 +1,6 @@
 import json
 import os
-from getpass import getpass
+from tkinter import simpledialog
 
 from .crypto_utils import encrypt_vault, decrypt_vault
 
@@ -9,19 +9,30 @@ VAULT_FILE = "vault.json.enc"
 
 
 class VaultManager:
-    def __init__(self, path: str = VAULT_FILE):
+    def __init__(self, parent=None, path: str = VAULT_FILE):
+        self.parent = parent
         self.path = path
 
     def exists(self) -> bool:
         return os.path.exists(self.path)
 
+    def ask_master_password(self, title: str, prompt: str) -> str | None:
+        return simpledialog.askstring(
+            title,
+            prompt,
+            show="*",
+            parent=self.parent
+        )
+
     def init_vault(self) -> None:
         if self.exists():
             raise FileExistsError("Vault already exists.")
 
-        master = getpass("Create master password: ")
-        confirm = getpass("Confirm master password: ")
+        master = self.ask_master_password("Create Vault", "Create master password:")
+        if not master:
+            raise ValueError("Master password is required.")
 
+        confirm = self.ask_master_password("Create Vault", "Confirm master password:")
         if master != confirm:
             raise ValueError("Passwords do not match.")
 
@@ -33,9 +44,11 @@ class VaultManager:
 
     def load(self) -> tuple[str, dict]:
         if not self.exists():
-            raise FileNotFoundError("Vault does not exist. Run init first.")
+            raise FileNotFoundError("Vault does not exist. Create it first.")
 
-        master = getpass("Master password: ")
+        master = self.ask_master_password("Unlock Vault", "Enter master password:")
+        if not master:
+            raise ValueError("Master password is required.")
 
         with open(self.path, "r", encoding="utf-8") as f:
             payload = json.load(f)
@@ -51,12 +64,10 @@ class VaultManager:
 
     def add_entry(self, site: str, username: str, password: str) -> None:
         master, data = self.load()
-
         data["entries"][site] = {
             "username": username,
-            "password": password
+            "password": password,
         }
-
         self.save(master, data)
 
     def get_entry(self, site: str) -> dict | None:
