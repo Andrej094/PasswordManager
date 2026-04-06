@@ -14,7 +14,7 @@ class PasswordManagerApp:
         self.root = root
         self.root.title("Password Manager")
         self.root.geometry("980x700")
-        self.root.minsize(940, 660)
+        self.root.minsize(980, 700)
 
         self.dark_mode = True
         self.selected_site = None
