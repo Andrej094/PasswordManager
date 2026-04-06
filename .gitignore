@@ -4,3 +4,5 @@ __pycache__/
 vault.json.enc
 .env
 .idea/
+build/
+dist/
