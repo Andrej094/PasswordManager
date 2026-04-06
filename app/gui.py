@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import filedialog, messagebox, ttk
+import webbrowser
 
 from .password_gen import generate_password, password_strength
 from .vault import VaultManager
@@ -209,6 +210,7 @@ class PasswordManagerApp:
         generator_row.grid(row=15, column=0, columnspan=4, sticky="ew",
                            pady=(12, 4))
         generator_row.columnconfigure(1, weight=1)
+
         ttk.Label(generator_row, text="Generated length",
                   style="Muted.TLabel").grid(row=0, column=0, sticky="w")
         self.length_spin = ttk.Spinbox(generator_row, from_=12, to=64,
@@ -218,6 +220,7 @@ class PasswordManagerApp:
                    command=self.generate_password).grid(row=0, column=2, padx=(10, 0))
         ttk.Button(generator_row, text="Copy Password",
                    command=self.copy_password).grid(row=0, column=3, padx=(6, 0))
+        ttk.Button(generator_row, text="Open Website", command=self.open_website).grid(row=0, column=4, padx=(6, 0))
         actions1 = ttk.Frame(parent, style="Panel.TFrame")
         actions1.grid(row=16, column=0, columnspan=4, sticky="ew", pady=(12, 4))
         for c in range(4):
@@ -484,6 +487,22 @@ class PasswordManagerApp:
         self.touch_activity()
         messagebox.showinfo("Copied", "Password copied. Clipboard will clear in seconds.", parent=self.root)
 
+    def open_website(self):
+        url = self.url_var.get().strip()
+
+        if not url:
+            messagebox.showwarning("Missing URL", "There is no URL to open.", parent=self.root)
+            return
+
+        if not url.startswith(("http://", "https://")):
+            url = "https://" + url
+
+        try:
+            webbrowser.open(url)
+            self.touch_activity()
+        except Exception as e:
+            messagebox.showerror("Error", str(e), parent=self.root)
+
     def clear_clipboard(self):
         self.root.clipboard_clear()
         self.clipboard_job = None
@@ -528,7 +547,7 @@ class PasswordManagerApp:
             self.refresh_sites()
             self.touch_activity()
             messagebox.showinfo("Imported", "Encrypted backup imported.",
-                            parent=self.root)
+                                parent=self.root)
         except Exception as e:
             messagebox.showerror("Error", str(e), parent=self.root)
 
@@ -550,6 +569,7 @@ class PasswordManagerApp:
         self.clear_clipboard()
         self.lock_vault()
         self.root.destroy()
+
 
 def run_app():
     root = tk.Tk()
