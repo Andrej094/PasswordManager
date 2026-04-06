@@ -9,8 +9,6 @@ This project was created to practice:
 - Secure storage design
 - Git workflow
 
-WARNING: This is an educational project and has not been security audited. Do not store critical passwords until thoroughly tested.
-
 ---
 
 ## Features
@@ -59,5 +57,88 @@ WARNING: This is an educational project and has not been security audited. Do no
 
 Python 3.10 or newer
 
-Install dependencies:
-pip install cryptography
+Install dependencies: **pip install cryptography**
+
+
+---
+
+## Running the program
+
+Run: **python main.py**
+
+---
+
+## Usage
+
+### First time setup
+
+1. Click **Create Vault**
+2. Create a master password
+3. The vault unlocks automatically
+
+### Add entry
+
+Fill in:
+
+- Site → service name
+- Username → login name
+- Password → generate or enter
+- URL → login page (optional)
+- Tags → categories (optional)
+- Notes → extra information
+
+Click: **Save / Update**
+
+### Load entry
+
+1. Select entry from list
+2. Click: **Load Selected**
+
+### Copy password
+
+Click: **Copy Password**
+
+Clipboard clears automatically after a short delay.
+
+### Open login page
+
+Add URL such as:
+
+
+https://github.com/login
+
+
+Click: **Open Website**
+
+### Search entries
+
+Search filters:
+- Site name
+- Username
+- Tags
+- Notes
+
+---
+## Known Limitations
+
+This project is still experimental:
+
+- No external security audit
+- No password recovery if master password is lost
+- Memory is not securely wiped (Python limitation)
+- No mobile support
+- No browser autofill
+
+---
+## Building executable
+
+Install PyInstaller: **pip install pyinstaller**
+
+Build: **pyinstaller --onefile --windowed --name PasswordManager main.py**
+
+Executable will appear in:
+
+dist/
+
+---
+
