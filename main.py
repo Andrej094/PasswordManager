@@ -1,4 +1,4 @@
-from app.cli import main
+from app.gui import run_app
 
 if __name__ == "__main__":
-    main()
+    run_app()
