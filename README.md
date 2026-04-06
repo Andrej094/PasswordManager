@@ -136,9 +136,4 @@ Install PyInstaller: **pip install pyinstaller**
 
 Build: **pyinstaller --onefile --windowed --name PasswordManager main.py**
 
-Executable will appear in:
-
-dist/
-
----
-
+Executable will appear in: **dist/**
